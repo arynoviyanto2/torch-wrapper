@@ -130,3 +130,4 @@ dmypy.json
 
 hand_signs_dataset
 models
+.vscode
