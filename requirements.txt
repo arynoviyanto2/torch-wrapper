@@ -1,0 +1,8 @@
+numpy
+Pillow
+torch
+tabulate
+tqdm
+sklearn
+pandas
+torchvision
