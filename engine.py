@@ -48,7 +48,7 @@ class Engine:
         loss_running_avg = MeasureProgression()
 
         # Train number of mini batches 
-        with tqdm(total=n) as progress:
+        with tqdm(total=n, desc="Train") as progress:
             for data_batch, label_batch in train_dataloader: # for each mini batch
                 
                 data_batch = Variable(data_batch)
@@ -78,7 +78,7 @@ class Engine:
         labels_arr = None
 
         # Test number of mini batches 
-        with tqdm(total=n) as progress:
+        with tqdm(total=n, desc="Eval") as progress:
             for data_batch, label_batch in test_dataloader: # for each mini batch
                 
                 data_batch = Variable(data_batch)
