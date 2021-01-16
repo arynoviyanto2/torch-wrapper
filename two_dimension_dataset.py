@@ -165,5 +165,5 @@ class TwoDimensionDataset():
         grid_img = torchvision.utils.make_grid(inputs)
 
         plt.imshow(grid_img.numpy().transpose((1, 2, 0)))
-        plt.title(labels.numpy())
+        plt.title([str(i) for i in labels.numpy()])
         plt.show()
