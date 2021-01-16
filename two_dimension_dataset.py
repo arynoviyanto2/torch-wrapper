@@ -144,6 +144,10 @@ class TwoDimensionDataset():
 
         return train_dataloaders, test_dataloaders
 
+    def getTargets(self):
+        targets = self.df[self.target_field].unique()
+        return targets, len(targets)
+
     def sample(self, seed_val=888, sample_num=3, randomly=False, row_index_list=[]):
         n = self.df.shape[0]
         if (n < sample_num):

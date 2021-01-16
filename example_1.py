@@ -1,6 +1,7 @@
 from two_dimension_dataset import TwoDimensionDataset
 from helpers import generate_metadata_file, load_model
 from cnn_model import CnnModel
+from resnet_model import ResnetModel
 from ml_model import MlModel
 from engine import Engine
 from performance_evaluation import Metric
@@ -16,18 +17,30 @@ train_dataset = TwoDimensionDataset(f'{dataset_name}/{train_dir}')
 train_dataloaders, test_dataloaders = train_dataset.getDataLoaders(params)
 #print(train_dataloaders)
 
+_, num_targets = train_dataset.getTargets()
+
 # Validation set
 val_dir = 'test_signs'
 generate_metadata_file(f'{dataset_name}/{val_dir}')
 val_dataset = TwoDimensionDataset(f'{dataset_name}/{val_dir}', nFold=1)
 val_dataloader = val_dataset.getDataLoader(params)
 
+model_name = 'resnet'
+
+def getModel(model_name, num_targets, dataset_name, fold=None):
+    name = f'{dataset_name}_{fold}' if fold is not None else f'{dataset_name}'
+
+    model = CnnModel(num_targets, name) # by default it is CNN
+    if model_name == 'resnet':
+        model = ResnetModel(num_targets, name)
+
+    return model
 
 for fold in range(train_dataset.nFold):
     print('Fold {}'.format(fold))
 
     # ML model
-    ml_model = MlModel(CnnModel(f'{dataset_name}_{fold}'))
+    ml_model = MlModel(getModel(model_name, num_targets, dataset_name, fold))
 
     # Engine
     params = {
@@ -39,7 +52,7 @@ for fold in range(train_dataset.nFold):
     engine.run_training(train_dataloaders[fold], test_dataloaders[fold])
 
     # Validation
-    best_model = CnnModel(f'{dataset_name}')
+    best_model = getModel(model_name, num_targets, dataset_name)
     model_name = ml_model.manifest().get_name()
     storage_dir = params['storage_dir']
     load_model(model_name, storage_dir, best_model)

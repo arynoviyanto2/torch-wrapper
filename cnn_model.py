@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 class CnnModel(nn.Module):
 
-    def __init__(self, dataset_name = ''):
+    def __init__(self, num_targets, dataset_name = ''):
         super(CnnModel, self).__init__()
 
         self.dataset_name = dataset_name
@@ -22,7 +22,7 @@ class CnnModel(nn.Module):
         self.fc1 = nn.Linear(in_features=8*8*128, out_features=128)
         self.fcbn1 = nn.BatchNorm1d(128)
         self.dropout = nn.Dropout(p=0.5)
-        self.fc2 = nn.Linear(in_features=128, out_features=6)
+        self.fc2 = nn.Linear(in_features=128, out_features=num_targets)
 
     def forward(self, batch_features): 
         # batch_features: batch_size x 64 x 64 x 3
