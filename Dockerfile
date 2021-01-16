@@ -1,3 +1,5 @@
+# Copyright Ary Noviyanto 2021
+
 FROM ubuntu:21.04
 ENV DEBIAN_FRONTEND=noninteractive 
 RUN apt update \

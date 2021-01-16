@@ -30,6 +30,8 @@ class CnnModel(nn.Module):
         batch_features = self.maxPool1(self.bn1(self.conv1(batch_features))) # batch_size x 32 x 32 x 32
         batch_features = F.relu(batch_features)
 
+        # pdb.set_trace()
+
         # Layer 2
         batch_features = self.maxPool2(self.bn2(self.conv2(batch_features))) # batch_size x 16 x 16 x 64
         batch_features = F.relu(batch_features)

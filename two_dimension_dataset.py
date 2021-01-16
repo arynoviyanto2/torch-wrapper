@@ -1,3 +1,5 @@
+# Copyright Ary Noviyanto 2021
+
 from PIL import Image
 from sklearn import model_selection
 from tqdm import tqdm
@@ -10,6 +12,9 @@ import torchvision.transforms as transforms
 import random
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import torchvision
 
 class DataMode(Enum):
     TRAIN = 'train'
@@ -139,5 +144,26 @@ class TwoDimensionDataset():
 
         return train_dataloaders, test_dataloaders
 
-    def sample(self, file_index=None):
-        pass
+    def sample(self, seed_val=888, sample_num=3, randomly=False, row_index_list=[]):
+        n = self.df.shape[0]
+        if (n < sample_num):
+            return
+
+        if len(row_index_list) > 0 :
+            sampled_df = self.df.loc[row_index_list, :].reset_index(drop=True)
+        else:
+            if randomly:
+                sampled_df = self.df.sample(sample_num).reset_index(drop=True)
+            else:    
+                sampled_df = self.df.sample(sample_num, random_state=seed_val).reset_index(drop=True)
+
+        sampled_dataset = TwoDimensionTorchDataset(sampled_df, self.getImageDirectoryPath(), self.target_field, self.getTestTransformsFunc())
+        sampled_dataloaders = DataLoader(sampled_dataset, batch_size=sample_num, shuffle=False)
+        
+        inputs, labels = next(iter(sampled_dataloaders))
+
+        grid_img = torchvision.utils.make_grid(inputs)
+
+        plt.imshow(grid_img.numpy().transpose((1, 2, 0)))
+        plt.title(labels.numpy())
+        plt.show()

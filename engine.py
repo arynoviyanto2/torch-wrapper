@@ -1,3 +1,5 @@
+# Copyright Ary Noviyanto 2021
+
 from tqdm import tqdm
 from torch.autograd import Variable
 

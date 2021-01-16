@@ -6,21 +6,20 @@ from engine import Engine
 from performance_evaluation import Metric
 
 # Construct dataset
+dataset_name = 'hand_signs_dataset'
+params = { 'batch_size': 10 }
 
 # Training set
-dataset_name = 'hand_signs_dataset'
 train_dir = 'train_signs'
 generate_metadata_file(f'{dataset_name}/{train_dir}')
 train_dataset = TwoDimensionDataset(f'{dataset_name}/{train_dir}')
-params = { 'batch_size': 10 }
-
 train_dataloaders, test_dataloaders = train_dataset.getDataLoaders(params)
 #print(train_dataloaders)
 
 # Validation set
 val_dir = 'test_signs'
-generate_metadata_file(f'{dataset_name}/{train_dir}')
-val_dataset = TwoDimensionDataset(f'{dataset_name}/{train_dir}', nFold=1)
+generate_metadata_file(f'{dataset_name}/{val_dir}')
+val_dataset = TwoDimensionDataset(f'{dataset_name}/{val_dir}', nFold=1)
 val_dataloader = val_dataset.getDataLoader(params)
 
 
