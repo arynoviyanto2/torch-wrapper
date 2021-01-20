@@ -99,4 +99,4 @@ class Engine:
                 progress.set_postfix(loss='{avg_loss:.2f}'.format(avg_loss=loss_running_avg.getMeasure()))
                 progress.update()
 
-        return PerformanceEvaluation(predicted_labels_arr, labels_arr)
+        return PerformanceEvaluation(predicted_labels_arr, labels_arr, model.num_targets)

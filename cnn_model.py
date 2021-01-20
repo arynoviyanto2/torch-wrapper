@@ -8,6 +8,7 @@ class CnnModel(nn.Module):
         super(CnnModel, self).__init__()
 
         self.dataset_name = dataset_name
+        self.num_targets = num_targets
 
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1, padding=1)
         self.bn1 = nn.BatchNorm2d(32)

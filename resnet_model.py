@@ -9,6 +9,7 @@ class ResnetModel(nn.Module):
         super(ResnetModel, self).__init__()
 
         self.dataset_name = dataset_name
+        self.num_targets = num_targets
 
         self.model = torchvision.models.resnet18(pretrained=True)
         for param in self.model.parameters():

@@ -36,7 +36,7 @@ def getModel(model_name, num_targets, dataset_name, fold=None):
 
     return model
 
-for fold in range(train_dataset.nFold):
+for fold in range(1):
     print('Fold {}'.format(fold))
 
     # ML model
@@ -44,7 +44,7 @@ for fold in range(train_dataset.nFold):
 
     # Engine
     params = {
-        'epochs': 30,
+        'epochs': 3,
         'storage_dir': 'models'
         }
     engine = Engine(ml_model=ml_model, params=params)
@@ -60,6 +60,14 @@ for fold in range(train_dataset.nFold):
     pe = engine.evaluate(val_dataloader, best_model)
     metrics = pe.get_performance_metrics()
     accuracy = metrics[Metric.ACCURACY]
+    sens = metrics[Metric.SENSITIVITY]
+    spec = metrics[Metric.SPECITIFITY]
+    bal_acc = metrics[Metric.BALANCED_ACCURACY]
+    cm = metrics[Metric.CM]
 
     print(f'===> Fold: {fold}, Accuracy: {accuracy:.2f}')
+    print(f'===> Fold: {fold}, sens: {sens:.2f}')
+    print(f'===> Fold: {fold}, spec: {spec:.2f}')
+    print(f'===> Fold: {fold}, bal_acc: {bal_acc:.2f}')
+    print(cm)
 
